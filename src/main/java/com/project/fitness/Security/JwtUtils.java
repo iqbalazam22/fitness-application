@@ -20,12 +20,12 @@ public class JwtUtils {
 
     private final long jwtExpirationMs = 172800000; // 2 days
 
-    // ✅ SINGLE SOURCE OF TRUTH (Base64 key)
+    //  SINGLE SOURCE OF TRUTH (Base64 key)
     private SecretKey getSecretKey(){
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
     }
 
-    // ✅ Extract JWT from header
+    //  Extract JWT from header
     public String getJwtFromHeader(HttpServletRequest request){
         String bearerToken = request.getHeader("Authorization");
 
@@ -35,7 +35,7 @@ public class JwtUtils {
         return null;
     }
 
-    // ✅ Generate token
+    //  Generate token
     public String generateToken(String userId, String role){
         return Jwts.builder()
                 .subject(userId)
@@ -46,7 +46,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    // ✅ Validate token
+    //  Validate token
     public boolean validateJwtToken(String jwtToken){
         try{
             Jwts.parser()
@@ -59,7 +59,7 @@ public class JwtUtils {
         }
     }
 
-    // ✅ Extract userId
+    //  Extract userId
     public String getUserIdFromToken(String jwt){
         return Jwts.parser()
                 .verifyWith(getSecretKey())
@@ -69,7 +69,7 @@ public class JwtUtils {
                 .getSubject();
     }
 
-    // ✅ Extract all claims
+    //  Extract all claims
     public Claims getAllClaims(String jwt) {
         return Jwts.parser()
                 .verifyWith(getSecretKey())
